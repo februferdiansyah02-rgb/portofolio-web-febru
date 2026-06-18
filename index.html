@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio - Web Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: '#0a0a0f',
+                        darker: '#050508',
+                        accent: '#00f0ff',
+                        accent2: '#7000ff',
+                        surface: 'rgba(255,255,255,0.03)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { cursor: none; }
+        body {
+            background: #0a0a0f;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #00f0ff;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s;
+            mix-blend-mode: difference;
+        }
+        
+        .cursor-dot {
+            width: 6px;
+            height: 6px;
+            background: #00f0ff;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .text-6xl{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+     
+
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #00f0ff, #7000ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .glow {
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+        }
+
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 240, 255, 0.1);
+        }
+
+        .skill-bar {
+            background: linear-gradient(90deg, #00f0ff, #7000ff);
+            height: 100%;
+            border-radius: 999px;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #00f0ff;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
+        }
+
+        .typing::after {
+            content: '|';
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00f0ff, #7000ff);
+            transition: width 0.3s;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        #gameCanvas {
+            border: 2px solid rgba(0, 240, 255, 0.3);
+            border-radius: 12px;
+        }
+
+        .glitch {
+            position: relative;
+        }
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff00bf00;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 #00fff9;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(31px, 9999px, 94px, 0); }
+            20% { clip: rect(6px, 9999px, 15px, 0); }
+            40% { clip: rect(78px, 9999px, 96px, 0); }
+            60% { clip: rect(15px, 9999px, 82px, 0); }
+            80% { clip: rect(2px, 9999px, 63px, 0); }
+            100% { clip: rect(53px, 9999px, 5px, 0); }
+        }
+
+        @keyframes glitch-anim2 {
+            0% { clip: rect(65px, 9999px, 99px, 0); }
+            20% { clip: rect(4px, 9999px, 63px, 0); }
+            40% { clip: rect(18px, 9999px, 45px, 0); }
+            60% { clip: rect(92px, 9999px, 14px, 0); }
+            80% { clip: rect(37px, 9999px, 76px, 0); }
+            100% { clip: rect(11px, 9999px, 88px, 0); }
+        }
+
+        .scroll-indicator {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .project-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .project-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(10,10,15,0.9) 100%);
+            z-index: 1;
+        }
+        .project-card:hover img {
+            transform: scale(1.1);
+            
+        }
+        .project-card img {
+            transition: transform 0.6s;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <!-- Custom Cursor -->
+    <div class="custom-cursor" id="cursor"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+
+    <!-- Particles Background -->
+    <div id="particles" class="fixed inset-0 pointer-events-none z-0"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass border-b border-white/5 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#home" class="text-2xl font-display font-bold gradient-text tracking-tighter">FEB<span class="text-white">.ID</span></a>
+            
+            <div class="hidden md:flex space-x-8">
+                <a href="#home" class="nav-link text-sm font-medium hover:text-accent transition-colors">Home</a>
+                <a href="#about" class="nav-link text-sm font-medium hover:text-accent transition-colors">About</a>
+                <a href="#projects" class="nav-link text-sm font-medium hover:text-accent transition-colors">Projects</a>
+                <a href="#skills" class="nav-link text-sm font-medium hover:text-accent transition-colors">Skills</a>
+                <a href="#game" class="nav-link text-sm font-medium hover:text-accent transition-colors">Game</a>
+                <a href="#contact" class="nav-link text-sm font-medium hover:text-accent transition-colors">Contact</a>
+            </div>
+
+            <button class="md:hidden text-white" onclick="toggleMobileMenu()">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden glass border-t border-white/5">
+            <div class="px-6 py-4 space-y-4">
+                <a href="#home" class="block text-sm hover:text-accent" onclick="toggleMobileMenu()">Home</a>
+                <a href="#about" class="block text-sm hover:text-accent" onclick="toggleMobileMenu()">About</a>
+                <a href="#projects" class="block text-sm hover:text-accent" onclick="toggleMobileMenu()">Projects</a>
+                <a href="#skills" class="block text-sm hover:text-accent" onclick="toggleMobileMenu()">Skills</a>
+                <a href="#game" class="block text-sm hover:text-accent" onclick="toggleMobileMenu()">Game</a>
+                <a href="#contact" class="block text-sm hover:text-accent" onclick="toggleMobileMenu()">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-accent/10 via-transparent to-transparent opacity-50"></div>
+        
+        <div class="relative z-10 text-center px-6 max-w-5xl mx-auto">
+            <div class="mb-6 inline-block">
+                <span class="px-4 py-2 rounded-full glass text-accent text-sm font-medium tracking-wider uppercase">
+                    Full Stack Developer
+                </span>
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold mb-6 leading-tight">
+                <span class="block text-white glitch" data-text="CREATIVE">CREATIVE</span>
+                <span class="gradient-text typing" id="typingText">DEVELOPER</span>
+            </h1>
+            
+            <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+                Membangun pengalaman digital yang memukau dengan kode yang bersih dan desain yang modern. Spesialisasi dalam web development modern dan interaktif.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#projects" class="px-8 py-4 bg-gradient-to-r from-accent to-accent2 rounded-full font-semibold text-black hover:shadow-[0_0_30px_rgba(0,240,255,0.4)] transition-all transform hover:scale-105">
+                    Lihat Project
+                </a>
+                <a href="#contact" class="px-8 py-4 glass rounded-full font-semibold hover:border-accent/50 transition-all">
+                    Hubungi Saya
+                </a>
+            </div>
+
+            <div class="mt-20 scroll-indicator">
+                <svg class="w-6 h-6 mx-auto text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-32 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="relative group">
+                    <div class="absolute -inset-4 bg-gradient-to-r from-accent to-accent2 rounded-2xl opacity-20 group-hover:opacity-40 blur-xl transition-opacity"></div>
+                    <div class="relative glass rounded-2xl p-8 overflow-hidden">
+                        <div class="aspect-square rounded-xl bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+                            <div class="text-6xl"><img src="WhatsApp Image 2026-06-17 at 19.33.26.jpeg" ></div>
+                        </div>
+                        <div class="mt-6 grid grid-cols-3 gap-4 text-center">
+                            <div class="p-4 glass rounded-lg">
+                                <div class="text-2xl font-bold gradient-text">3+</div>
+                                <div class="text-xs text-gray-400 mt-1">Tahun</div>
+                            </div>
+                            <div class="p-4 glass rounded-lg">
+                                <div class="text-2xl font-bold gradient-text">50+</div>
+                                <div class="text-xs text-gray-400 mt-1">Project</div>
+                            </div>
+                            <div class="p-4 glass rounded-lg">
+                                <div class="text-2xl font-bold gradient-text">10+</div>
+                                <div class="text-xs text-gray-400 mt-1">Klien</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="text-sm font-bold text-accent tracking-widest uppercase mb-4">Tentang Saya</h2>
+                    <h3 class="text-4xl md:text-5xl font-display font-bold mb-6">
+                        Developer yang <span class="gradient-text">Passionate</span> dengan Teknologi
+                    </h3>
+                    <p class="text-gray-400 leading-relaxed mb-6">
+                        Saya adalah seorang Full Stack Developer dengan pengalaman lebih dari 5 tahun dalam membangun aplikasi web modern. Saya percaya bahwa teknologi harus tidak hanya fungsional, tetapi juga memberikan pengalaman yang menyenangkan bagi pengguna.
+                    </p>
+                    <p class="text-gray-400 leading-relaxed mb-8">
+                        Dari frontend yang responsif hingga backend yang scalable, saya menikmati setiap aspek dari proses development. Saya selalu mengikuti perkembangan teknologi terbaru dan menerapkan best practices dalam setiap project.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-3">
+                        <span class="px-4 py-2 glass rounded-full text-sm">React</span>
+                        <span class="px-4 py-2 glass rounded-full text-sm">Node.js</span>
+                        <span class="px-4 py-2 glass rounded-full text-sm">TypeScript</span>
+                        <span class="px-4 py-2 glass rounded-full text-sm">Python</span>
+                        <span class="px-4 py-2 glass rounded-full text-sm">AWS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-32 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-sm font-bold text-accent tracking-widest uppercase mb-4">Portfolio</h2>
+                <h3 class="text-4xl md:text-5xl font-display font-bold">Project <span class="gradient-text">Terbaru</span></h3>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="project-card glass rounded-2xl overflow-hidden card-hover group cursor-pointer">
+                    <div class="h-64 bg-gradient-to-br from-blue-900 to-purple-900 relative">
+                        <div class="absolute inset-0 flex items-center justify-center text-6xl "><img src="Screenshot 2026-05-22 095618.png "></div>
+                        <div class="absolute top-4 right-4 px-3 py-1 bg-black/50 rounded-full text-xs">Website</div>
+                    </div>
+                    <div class="p-6 relative z-10">
+                        <h4 class="text-xl font-bold mb-2 group-hover:text-accent transition-colors">
+                            <a href="https://portofolio-febru-ferdiansyah.netlify.app/">PROJEK PORTOFOLIO</a>
+                        </h4>
+                        <p class="text-gray-400 text-sm mb-4">Website tentang profil saya sendiri yang interaktif dan lebih simpel .</p>
+                        <div class="flex gap-2">
+                            <span class="text-xs px-3 py-1 glass rounded-full">HTML</span>
+                            <span class="text-xs px-3 py-1 glass rounded-full">CSS</span>
+                            <span class="text-xs px-3 py-1 glass rounded-full">JavaScript</span>  
+    
+                           
+                          
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card glass rounded-2xl overflow-hidden card-hover group cursor-pointer">
+                    <div class="h-64 bg-gradient-to-br from-emerald-900 to-teal-900 relative">
+                        <div class="absolute inset-0 flex items-center justify-center "><img src="Screenshot 2026-06-13 153522.png"></div>
+                        <div class="absolute top-4 right-4 px-3 py-1 bg-black/50 rounded-full text-xs">Website</div>
+                    </div>
+                    <div class="p-6 relative z-10">
+                        <h4 class="text-xl font-bold mb-2 group-hover:text-accent transition-colors">
+                            <a href="https://februferdiansyah02-rgb.github.io/websate-hobi/">Interesthub</a>
+                        </h4>
+                        <p class="text-gray-400 text-sm mb-4">Websate ini tentang kesukaan saya dan hobi saya .</p>
+                        <div class="flex gap-2">
+                            <span class="text-xs px-3 py-1 glass rounded-full">HTMLt</span>
+                            <span class="text-xs px-3 py-1 glass rounded-full">CSS</span>
+                
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card glass rounded-2xl overflow-hidden card-hover group cursor-pointer">
+                    <div class="h-64 bg-gradient-to-br from-orange-900 to-red-900 relative">
+                        <div class="absolute inset-0 flex items-center justify-center text-6xl "><img src="ChatGPT Image May 9, 2026, 02_48_26 PM.png"></div>
+                        <div class="absolute top-4 right-4 px-3 py-1 bg-black/50 rounded-full text-xs">Database</div>
+                    </div>
+                    <div class="p-6 relative z-10">
+                        <h4 class="text-xl font-bold mb-2 group-hover:text-accent transition-colors">
+                            <a href="https://drive.google.com/drive/folders/1DHVJUE_nHHpKagfX3gdKGqHX31E1rpmz?usp=drive_link">Database</a>
+                        </h4>
+                        <p class="text-gray-400 text-sm mb-4">Ini adalah database tentang rumah makan dana vidio cara pembuatan IA agent untuk memanggil data yang 
+                            di perlukan.</p>
+                        <div class="flex gap-2">
+                            <span class="text-xs px-3 py-1 glass rounded-full">SQL</span>
+                            <span class="text-xs px-3 py-1 glass rounded-full">N8N</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-card glass rounded-2xl overflow-hidden card-hover group cursor-pointer">
+                    <div class="h-64 bg-gradient-to-br from-pink-900 to-rose-900 relative">
+                        <div class="absolute inset-0 flex items-center justify-center text-6xl "><img src="MIE PADEH (7).png"></div>
+                        <div class="absolute top-4 right-4 px-3 py-1 bg-black/50 rounded-full text-xs">Desan</div>
+                    </div>
+                    <div class="p-6 relative z-10">
+                        <h4 class="text-xl font-bold mb-2 group-hover:text-accent transition-colors">
+                            <a href="https://canva.link/6v5ixwjep8wdq1a">Desain canva</a>
+                        </h4>
+                        <p class="text-gray-400 text-sm mb-4">Desain sederhana untuk umkm yang lebeh interaktif dan modern .</p>
+                        <div class="flex gap-2">
+                            <span class="text-xs px-3 py-1 glass rounded-full">canva</span>
+                           
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 5 -->
+                <div class="project-card glass rounded-2xl overflow-hidden card-hover group cursor-pointer">
+                    <div class="h-64 bg-gradient-to-br from-cyan-900 to-blue-900 relative">
+                        <div class="absolute inset-0 flex items-center justify-center text-6xl "><img src="ChatGPT Image May 9, 2026, 02_38_28 PM.png"></div>
+                        <div class="absolute top-4 right-4 px-3 py-1 bg-black/50 rounded-full text-xs">Python</div>
+                    </div>
+                    <div class="p-6 relative z-10">
+                        <h4 class="text-xl font-bold mb-2 group-hover:text-accent transition-colors">
+                            <a href="https://drive.google.com/drive/folders/1NiOUhXJZESjlVOGmf6KBW5WoY0dSZL9Z?usp=drive_link">projek perpustakaan</a>
+                        </h4>
+                        <p class="text-gray-400 text-sm mb-4">Projek ini di kerjakan menggunakan bahasa pemograman python dan sedikit menggunakan konsep oop.</p>
+                        <div class="flex gap-2">
+                            <span class="text-xs px-3 py-1 glass rounded-full">Python</span>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 6 -->
+                <div class="project-card glass rounded-2xl overflow-hidden card-hover group cursor-pointer">
+                    <div class="h-64 bg-gradient-to-br from-violet-900 to-purple-900 relative">
+                        <div class="absolute inset-0 flex items-center justify-center text-6xl "><img src="ChatGPT Image May 9, 2026, 02_57_01 PM.png"></div>
+                        <div class="absolute top-4 right-4 px-3 py-1 bg-black/50 rounded-full text-xs">Python</div>
+                    </div>
+                    <div class="p-6 relative z-10">
+                        <h4 class="text-xl font-bold mb-2 group-hover:text-accent transition-colors">
+                            <a href="https://drive.google.com/drive/folders/122uGkD5Y3qt1tME0J2ELH9HIv36WgYiL?usp=drive_link">perpajakan</a>
+                        </h4>
+                        <p class="text-gray-400 text-sm mb-4">Projek ini di kerjakan menggunakan bahasa pemograman python dan sedikit juga menggunakan konsep oop.</p>
+                        <div class="flex gap-2">
+                            <span class="text-xs px-3 py-1 glass rounded-full">Python</span>
+                          
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card glass rounded-2xl overflow-hidden card-hover group cursor-pointer">
+                    <div class="h-64 bg-gradient-to-br from-violet-900 to-purple-900 relative">
+                        <div class="absolute inset-0 flex items-center justify-center text-6xl "><img src="Screenshot 2026-05-08 205937.png"></div>
+                        <div class="absolute top-4 right-4 px-3 py-1 bg-black/50 rounded-full text-xs">UI/UX</div>
+                    </div>
+                    <div class="p-6 relative z-10">
+                        <h4 class="text-xl font-bold mb-2 group-hover:text-accent transition-colors">
+                            <a href="https://www.figma.com/proto/mwgMvEX23Pi8sHKnaUCV70/Untitled?node-id=3-31&starting-point-node-id=3%3A31&t=kz8Ejk5DSJNEq9J5-1">E-commers</a>
+                        </h4>
+                        <p class="text-gray-400 text-sm mb-4">Projek ini tentang sebuah desain ui untuk e-commers lebih elegan dan sederhana.</p>
+                        <div class="flex gap-2">
+                            <span class="text-xs px-3 py-1 glass rounded-full">Figma</span>
+                          
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card glass rounded-2xl overflow-hidden card-hover group cursor-pointer">
+                    <div class="h-64 bg-gradient-to-br from-violet-900 to-purple-900 relative">
+                        <div class="absolute inset-0 flex items-center justify-center text-6xl "><img src="Screenshot 2026-05-08 214509.png"></div>
+                        <div class="absolute top-4 right-4 px-3 py-1 bg-black/50 rounded-full text-xs">UI/UX</div>
+                    </div>
+                    <div class="p-6 relative z-10">
+                        <h4 class="text-xl font-bold mb-2 group-hover:text-accent transition-colors">
+                            <a href="https://www.figma.com/proto/nUdHoSxh87zDxBRVsHcmvU/SAHABAT-SEHAT-PROJECT?node-id=7-9&starting-point-node-id=136%3A506&t=RLjcAoZpF15lvt71-1">kesehatan</a>
+                        </h4>
+                        <p class="text-gray-400 text-sm mb-4">Projek ini  sebuah protype  desain ui/ux tentang aplikasi kesehatan.</p>
+                        <div class="flex gap-2">
+                            <span class="text-xs px-3 py-1 glass rounded-full">Figma</span>
+                          
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <div class="project-card glass rounded-2xl overflow-hidden card-hover group cursor-pointer">
+                    <div class="h-64 bg-gradient-to-br from-violet-900 to-purple-900 relative">
+                        <div class="absolute inset-0 flex items-center justify-center text-6xl "><img src="Screenshot 2026-05-09 131943.png"></div>
+                        <div class="absolute top-4 right-4 px-3 py-1 bg-black/50 rounded-full text-xs">UI/UX</div>
+                    </div>
+                    <div class="p-6 relative z-10">
+                        <h4 class="text-xl font-bold mb-2 group-hover:text-accent transition-colors">
+                            <a href="https://www.figma.com/proto/PDI6VoLjKKDrL5rGlJs2dX/Untitled?node-id=6-11&starting-point-node-id=1%3A4&t=zhbLp8mCqo0Gf5D2-1">E-commers</a>
+                        </h4>
+                        <p class="text-gray-400 text-sm mb-4">Projek ini adalah prtotype ui/ux tentang aplikasi tentang pembelian makanan.</p>
+                        <div class="flex gap-2">
+                            <span class="text-xs px-3 py-1 glass rounded-full">Figma</span>
+                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-32 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-sm font-bold text-accent tracking-widest uppercase mb-4">Keahlian</h2>
+                <h3 class="text-4xl md:text-5xl font-display font-bold">Tech <span class="gradient-text">Stack</span></h3>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="space-y-8">
+                    <div class="skill-item">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-semibold">JavaScript / TypeScript</span>
+                            <span class="text-accent">95%</span>
+                        </div>
+                        <div class="h-2 bg-white/10 rounded-full overflow-hidden">
+                            <div class="skill-bar" style="width: 0%" data-width="95%"></div>
+                        </div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-semibold">React / Next.js</span>
+                            <span class="text-accent">90%</span>
+                        </div>
+                        <div class="h-2 bg-white/10 rounded-full overflow-hidden">
+                            <div class="skill-bar" style="width: 0%" data-width="90%"></div>
+                        </div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-semibold">Node.js / Express</span>
+                            <span class="text-accent">88%</span>
+                        </div>
+                        <div class="h-2 bg-white/10 rounded-full overflow-hidden">
+                            <div class="skill-bar" style="width: 0%" data-width="88%"></div>
+                        </div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-semibold">Python / Django</span>
+                            <span class="text-accent">85%</span>
+                        </div>
+                        <div class="h-2 bg-white/10 rounded-full overflow-hidden">
+                            <div class="skill-bar" style="width: 0%" data-width="85%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-8">
+                    <div class="skill-item">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-semibold">Database (SQL/NoSQL)</span>
+                            <span class="text-accent">82%</span>
+                        </div>
+                        <div class="h-2 bg-white/10 rounded-full overflow-hidden">
+                            <div class="skill-bar" style="width: 0%" data-width="82%"></div>
+                        </div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-semibold">DevOps / Docker / AWS</span>
+                            <span class="text-accent">78%</span>
+                        </div>
+                        <div class="h-2 bg-white/10 rounded-full overflow-hidden">
+                            <div class="skill-bar" style="width: 0%" data-width="78%"></div>
+                        </div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-semibold">UI/UX Design</span>
+                            <span class="text-accent">75%</span>
+                        </div>
+                        <div class="h-2 bg-white/10 rounded-full overflow-hidden">
+                            <div class="skill-bar" style="width: 0%" data-width="75%"></div>
+                        </div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-semibold">Mobile Development</span>
+                            <span class="text-accent">70%</span>
+                        </div>
+                        <div class="h-2 bg-white/10 rounded-full overflow-hidden">
+                            <div class="skill-bar" style="width: 0%" data-width="70%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+          
+        </div>
+    </section>
+
+    <!-- Game Section -->
+    <section id="game" class="py-32 relative">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h2 class="text-sm font-bold text-accent tracking-widest uppercase mb-4">Mini Game</h2>
+            <h3 class="text-4xl md:text-5xl font-display font-bold mb-8">Neon <span class="gradient-text">Snake</span></h3>
+            <p class="text-gray-400 mb-8">Gunakan arrow keys untuk mengontrol ular. Makan makanan untuk bertambah panjang!</p>
+            
+            <div class="relative inline-block">
+                <canvas id="gameCanvas" width="400" height="400" class="bg-black/50"></canvas>
+                <div id="gameOverlay" class="absolute inset-0 flex items-center justify-center bg-black/80 rounded-xl">
+                    <div class="text-center">
+                        <p class="text-2xl font-bold mb-4">NEON SNAKE</p>
+                        <button onclick="startGame()" class="px-6 py-3 bg-gradient-to-r from-accent to-accent2 rounded-full font-bold text-black hover:scale-105 transition-transform">
+                            Mulai Game
+                        </button>
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-between text-sm text-gray-400">
+                    <span>Score: <span id="score" class="text-accent font-bold">0</span></span>
+                    <span>High Score: <span id="highScore" class="text-accent2 font-bold">0</span></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-32 relative">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-sm font-bold text-accent tracking-widest uppercase mb-4">Kontak</h2>
+                <h3 class="text-4xl md:text-5xl font-display font-bold">Mari <span class="gradient-text">Bekerjasama</span></h3>
+            </div>
+
+            
+            <div class="glass rounded-2xl p-8 md:p-12">
+
+```
+<form action="https://formsubmit.co/februferdiansyah02@gmail.com" method="POST" class="space-y-6">
+
+    <!-- FormSubmit Settings -->
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_subject" value="Pesan Baru dari Portfolio Febru Ferdiansyah">
+    <input type="hidden" name="_next" value="https://portofolio-febru-ferdiansyah.netlify.app/">
+
+    <div class="grid md:grid-cols-2 gap-6">
+
+        <div>
+            <label class="block text-sm font-medium mb-2">Nama</label>
+            <input
+                type="text"
+                name="Nama"
+                required
+                class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-all"
+                placeholder="Nama Anda">
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium mb-2">Email</label>
+            <input
+                type="email"
+                name="Email"
+                required
+                class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-all"
+                placeholder="email@example.com">
+        </div>
+
+    </div>
+
+    <div>
+        <label class="block text-sm font-medium mb-2">Subjek</label>
+        <input
+            type="text"
+            name="Subjek"
+            required
+            class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-all"
+            placeholder="Subjek pesan">
+    </div>
+
+    <div>
+        <label class="block text-sm font-medium mb-2">Pesan</label>
+        <textarea
+            name="Pesan"
+            required
+            rows="5"
+            class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-all resize-none"
+            placeholder="Tulis pesan Anda..."></textarea>
+    </div>
+
+    <button
+        type="submit"
+        class="w-full py-4 bg-gradient-to-r from-accent to-accent2 rounded-lg font-bold text-black hover:shadow-[0_0_30px_rgba(0,240,255,0.4)] transition-all transform hover:scale-[1.02]">
+        Kirim Pesan
+    </button>
+
+</form>
+
+<div class="mt-12 pt-8 border-t border-white/10 grid md:grid-cols-3 gap-8 text-center">
+
+    <div>
+        <div class="text-2xl mb-2">📧</div>
+        <p class="text-sm text-gray-400">
+            februferdiansyah02@gmail.com
+        </p>
+    </div>
+
+    <div>
+        <div class="text-2xl mb-2">📱</div>
+        <p class="text-sm text-gray-400">
+            +62 82287196964
+        </p>
+    </div>
+
+    <div>
+        <div class="text-2xl mb-2">📍</div>
+        <p class="text-sm text-gray-400">
+            Jakarta, Indonesia
+        </p>
+    </div>
+
+</div>
+```
+
+</div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+            <div class="text-2xl font-display font-bold gradient-text mb-4 md:mb-0">FEB.ID</div>
+            <div class="flex space-x-6">
+                <a href="https://github.com/februferdiansyah02-rgb" class="hover:text-accent transition-colors">GitHub</a>
+                <a href="https://www.linkedin.com/in/febru-ferdiansyah-8139a9392/" class="hover:text-accent transition-colors">LinkedIn</a>
+                <a href="https://wa.me/6282287196964" class="hover:text-accent transition-colors">WhatsApp</a>
+                <a href="https://www.instagram.com/februari_0416/" class="hover:text-accent transition-colors">Instagram</a>
+            </div>
+            <div class="mt-4 md:mt-0 text-sm text-gray-500">
+                 
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Custom Cursor
+        const cursor = document.getElementById('cursor');
+        const cursorDot = document.getElementById('cursorDot');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX - 10 + 'px';
+            cursor.style.top = e.clientY - 10 + 'px';
+            cursorDot.style.left = e.clientX - 3 + 'px';
+            cursorDot.style.top = e.clientY - 3 + 'px';
+        });
+
+        document.addEventListener('mousedown', () => {
+            cursor.style.transform = 'scale(0.8)';
+        });
+
+        document.addEventListener('mouseup', () => {
+            cursor.style.transform = 'scale(1)';
+        });
+
+        // Particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // Typing Effect
+        const texts = ['DEVELOPER', 'DESIGNER', 'FRONTEND', 'EDITOR','BACKEND'];
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingElement = document.getElementById('typingText');
+
+        function type() {
+            const current = texts[textIndex];
+            
+            if (isDeleting) {
+                typingElement.textContent = current.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingElement.textContent = current.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            if (!isDeleting && charIndex === current.length) {
+                isDeleting = true;
+                setTimeout(type, 2000);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % texts.length;
+                setTimeout(type, 500);
+            } else {
+                setTimeout(type, isDeleting ? 50 : 100);
+            }
+        }
+        type();
+
+        // Scroll Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Navbar scroll effect
+        ScrollTrigger.create({
+            start: 'top -80',
+            end: 99999,
+            toggleClass: { className: 'bg-black/80 backdrop-blur-xl', targets: '#navbar' }
+        });
+
+        // Skill bars animation
+        gsap.utils.toArray('.skill-bar').forEach(bar => {
+            gsap.to(bar, {
+                width: bar.dataset.width,
+                duration: 1.5,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: bar,
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                }
+            });
+        });
+
+        // Fade up animations
+        gsap.utils.toArray('section').forEach(section => {
+            gsap.from(section.children, {
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.2,
+                scrollTrigger: {
+                    trigger: section,
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                }
+            });
+        });
+
+        // Mobile Menu
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Contact Form
+      
+
+        // Neon Snake Game
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const gridSize = 20;
+        const tileCount = canvas.width / gridSize;
+        
+        let snake = [{x: 10, y: 10}];
+        let food = {x: 15, y: 15};
+        let dx = 0;
+        let dy = 0;
+        let score = 0;
+        let highScore = localStorage.getItem('snakeHighScore') || 0;
+        let gameLoop;
+        let isGameRunning = false;
+
+        document.getElementById('highScore').textContent = highScore;
+
+        function startGame() {
+            document.getElementById('gameOverlay').style.display = 'none';
+            snake = [{x: 10, y: 10}];
+            food = randomPosition();
+            dx = 1;
+            dy = 0;
+            score = 0;
+            updateScore();
+            isGameRunning = true;
+            
+            if (gameLoop) clearInterval(gameLoop);
+            gameLoop = setInterval(update, 100);
+        }
+
+        function randomPosition() {
+            return {
+                x: Math.floor(Math.random() * tileCount),
+                y: Math.floor(Math.random() * tileCount)
+            };
+        }
+
+        function update() {
+            const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+
+            if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) {
+                gameOver();
+                return;
+            }
+
+            for (let i = 0; i < snake.length; i++) {
+                if (head.x === snake[i].x && head.y === snake[i].y) {
+                    gameOver();
+                    return;
+                }
+            }
+
+            snake.unshift(head);
+
+            if (head.x === food.x && head.y === food.y) {
+                score += 10;
+                updateScore();
+                food = randomPosition();
+                
+                // Ensure food doesn't spawn on snake
+                while (snake.some(segment => segment.x === food.x && segment.y === food.y)) {
+                    food = randomPosition();
+                }
+            } else {
+                snake.pop();
+            }
+
+            draw();
+        }
+
+        function draw() {
+            // Clear with trail effect
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw snake with glow
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = '#00f0ff';
+            ctx.fillStyle = '#00f0ff';
+            snake.forEach((segment, index) => {
+                ctx.fillRect(segment.x * gridSize + 1, segment.y * gridSize + 1, gridSize - 2, gridSize - 2);
+            });
+
+            // Draw food with glow
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = '#7000ff';
+            ctx.fillStyle = '#7000ff';
+            ctx.beginPath();
+            ctx.arc(food.x * gridSize + gridSize/2, food.y * gridSize + gridSize/2, gridSize/2 - 2, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.shadowBlur = 0;
+        }
+
+        function gameOver() {
+            isGameRunning = false;
+            clearInterval(gameLoop);
+            
+            if (score > highScore) {
+                highScore = score;
+                localStorage.setItem('snakeHighScore', highScore);
+                document.getElementById('highScore').textContent = highScore;
+            }
+
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#00f0ff';
+            ctx.font = '30px Space Grotesk';
+            ctx.textAlign = 'center';
+            ctx.fillText('GAME OVER', canvas.width/2, canvas.height/2 - 20);
+            
+            ctx.fillStyle = '#fff';
+            ctx.font = '20px Space Grotesk';
+            ctx.fillText('Score: ' + score, canvas.width/2, canvas.height/2 + 20);
+            
+            setTimeout(() => {
+                document.getElementById('gameOverlay').style.display = 'flex';
+            }, 1500);
+        }
+
+        function updateScore() {
+            document.getElementById('score').textContent = score;
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (!isGameRunning) return;
+            
+            switch(e.key) {
+                case 'ArrowUp':
+                    if (dy === 0) { dx = 0; dy = -1; }
+                    break;
+                case 'ArrowDown':
+                    if (dy === 0) { dx = 0; dy = 1; }
+                    break;
+                case 'ArrowLeft':
+                    if (dx === 0) { dx = -1; dy = 0; }
+                    break;
+                case 'ArrowRight':
+                    if (dx === 0) { dx = 1; dy = 0; }
+                    break;
+            }
+        });
+
+        // Touch controls for mobile
+        let touchStartX = 0;
+        let touchStartY = 0;
+
+        canvas.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+        });
+
+        canvas.addEventListener('touchmove', (e) => {
+            if (!isGameRunning) return;
+            e.preventDefault();
+            
+            const touchX = e.touches[0].clientX;
+            const touchY = e.touches[0].clientY;
+            
+            const diffX = touchX - touchStartX;
+            const diffY = touchY - touchStartY;
+            
+            if (Math.abs(diffX) > Math.abs(diffY)) {
+                if (diffX > 0 && dx === 0) { dx = 1; dy = 0; }
+                else if (diffX < 0 && dx === 0) { dx = -1; dy = 0; }
+            } else {
+                if (diffY > 0 && dy === 0) { dx = 0; dy = 1; }
+                else if (diffY < 0 && dy === 0) { dx = 0; dy = -1; }
+            }
+            
+            touchStartX = touchX;
+            touchStartY = touchY;
+        });
+
+        
+    </script>
+</body>
+</html>
